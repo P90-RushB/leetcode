@@ -1,0 +1,36 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+  public TreeNode BuildTree(int[] preorder, int[] inorder) {
+   return recu(0,0,inorder.Length-1,preorder,inorder);
+    }
+    //用递归，i表示前序数组中根的序号，j和k分别表示中序数组的起点和终点序号（因为递归中分成了各个子树，用j，k表示子树的范围）
+    TreeNode recu(int prestart,int instart,int inend,int[] preorder,int[] inorder){
+         if (prestart > preorder.Length - 1 || instart > inend) {
+            return null;
+        }
+        TreeNode root=new TreeNode(preorder[prestart]);
+        
+        int index=0;
+        for(int x=instart;x<=inend;x++){
+            if(preorder[prestart]==inorder[x])
+                index=x;
+        }
+        root.left=recu(prestart+1,instart,index-1,preorder,inorder);
+        root.right=recu(prestart+index-instart+1,index+1,inend,preorder,inorder);
+        return root;
+    }
+}
+
+//题目给了树的前序和中序数组，让构建树。利用递归，递归函数需要的参数有五个：这棵树的根在前序数组中的序号，这棵树的所有节点在中序数组中的范围（起点和终点
+//），还有前序和中序数组。当递归没有进行到简单情况，则新建一个节点命名为root，在for循环中找到根在中序数组中的序号，保存在index中，由于不是
+//简单情况，对root的左右子节点赋值，左子节点在前序中的序号就在父节点+1，即prestart+1，左子节点在中序数组中的范围为instart到index-1。
+//难点在右子节点，右子节点在前序数组中的序号为：父节点的序号（prestart）往右数，数几个取决于中序数组中父节点+左子树上节点的个数（即index-instart+1），
+//因为前序中父节点之后是左子树所有节点，然后就是右子节点。
