@@ -1,0 +1,15 @@
+public class Solution {
+    public int RemoveElement(int[] nums, int val) {
+  int j=0;
+        for(int i=0;i<nums.Length;i++){
+            if(nums[i]!=val)
+            {
+                nums[j++]=nums[i];
+            }
+           
+        }
+         return j;
+    }
+}
+//抓住重点：所需的子数组后面的元素是什么是无所谓的。
+//遍历一遍数组，每当发现和val不一样的值，就赋给另一个变量j，然后j+1。
