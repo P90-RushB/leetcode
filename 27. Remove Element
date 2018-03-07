@@ -13,3 +13,23 @@ public class Solution {
 }
 //抓住重点：所需的子数组后面的元素是什么是无所谓的。
 //遍历一遍数组，每当发现和val不一样的值，就赋给另一个变量j，然后j+1。
+
+
+方法二：
+思路：1.遍历数组，对每个i，当nums[i]==val，说明这个值要替换，又因为题目说了顺序可以改，则可以从数组最末数的值替换nums[i]的当前值；
+替换后，由于替换后的值有可能也等于val，所以在if(nums[i]==val)时，最后要i--，再次判断当前序号的值，最末尾也要-1.
+public class Solution {
+    public int RemoveElement(int[] nums, int val) {
+  int n=nums.Length;
+        for(int i=0;i<n;i++)
+        {
+            if(nums[i]==val)
+            {
+                nums[i]=nums[n-1];
+                n--;
+                i--;
+            }
+        }
+        return n;
+    }
+}
