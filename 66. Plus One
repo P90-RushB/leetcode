@@ -1,0 +1,32 @@
+public class Solution {
+    public int[] PlusOne(int[] digits) {//下次不要借助list
+      int n=digits.Length-1;
+        int t=1;
+        for(int i=n;i>=0;i--)
+        {
+            
+            if(i==0)
+            {
+                if(digits[0]+t==10)
+                {
+                    int[] p=new int[n+2];
+                    p[0]=1;
+                    return p;
+                }
+                
+            }
+            digits[i]=digits[i]+t;
+            if(digits[i]<=9)
+                return digits;
+            if(digits[i]==10)
+            {
+                t=1;
+                digits[i]=0;
+            }
+            else
+                t=0;
+        }
+        return digits;
+        
+    }
+}
