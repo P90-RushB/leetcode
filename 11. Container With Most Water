@@ -1,0 +1,35 @@
+//首先最容易想的方法就是遍历，但是超时了 O（n方）
+  public int MaxArea(int[] height) {
+         int lon= height.Length;
+            int max = 0;
+            for (int i = 0; i < lon - 1; i++)
+            {
+                int hei = height[i];
+                for (int j = i + 1; j < lon; j++)
+                {
+                    int low = hei < height[j] ? hei : height[j];
+                    max = max < low * (j - i) ? low*(j-i) : max;
+                }
+            }
+            return max;
+    }
+    
+    
+    
+    
+    优化的方法，从两边开始，左右两边哪边高度较低，低的一边往中间靠，每次看看max是否要更新。
+     public int MaxArea(int[] height) {
+        
+           int i=0,j=height.Length-1;
+         int max=0;
+        while(i<j)
+        {
+            int temp=height[i]<height[j]?height[i]:height[j];
+            max=max>temp*(j-i)?max:temp*(j-i);
+            if(height[i]<height[j])
+                i++;
+            else 
+                j--;
+        }
+        return max;
+    }
