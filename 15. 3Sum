@@ -1,0 +1,42 @@
+ public IList<IList<int>> ThreeSum(int[] nums) {
+ 
+ //先对数组进行排序，因为此题明显On方都是优化的方法了，排序并不会再增加复杂度了。排序后，相同的数就可以只判断第一个，后面重复的可以跳过。
+     Array.Sort(nums);
+     
+        IList<IList<int>> t=new List<IList<int>>();
+        
+        //遍历到倒数第三个数。
+        for(int i=0;i<nums.Length-2;i++)
+        {
+        
+        //这个if是保证外层循环的数不是已经重复的数
+            if(i==0||nums[i]!=nums[i-1]){
+              int c=-nums[i];
+              int a=i+1;//从i+1到最后一个数
+              int b=nums.Length-1;
+              while(a<b)//当还满足a<b时
+              {
+                  if(nums[b]+nums[a]==c){//如果a+b等于c，满足条件，则加进list
+                     
+                      List<int> n=new List<int>(new int[]{nums[i],nums[a],nums[b]});
+                       t.Add(n);
+                  while(a<b&&nums[a]==nums[a+1])//在满足a+b等于c之后，进行此循环，跳过重复的a，下面的while也是一样，跳过b
+                      a++;
+                  while(a<b&&nums[b]==nums[b-1])
+                      b--;
+                      
+                  a++;b--;//因为此句是满足条件后的自增和自减，如果已经满足了a+b等于c，那么只a++或者只b--肯定是不满足的，所以
+                 //直接增和减。
+                  }
+                 else if(nums[a]+nums[b]<c)//在不满足时，若是因为小于c，则说明是nums【a】小了，增a，否则减b（因为已经排好序了）
+                     a++;
+                  else b--;
+                  
+              }
+                  
+                
+            }
+          
+        }
+        return t;
+    }
