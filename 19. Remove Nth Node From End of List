@@ -1,0 +1,39 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode RemoveNthFromEnd(ListNode head, int n) {
+        int i=1;
+        //此题要倒着数第n个节点删去，返回处理后的节点。并且要求只遍历一次
+        //分两种情况
+        ListNode p=head;
+        //情况一：正好就n个数，则要删去的就是head节点。（因为不可能是正着数小于n的数，想好）
+        while(i<n)
+        {
+            p=p.next;
+            i++;
+        }
+            //如果if成立，说明是情况一：正好就n个数
+        if(p.next==null)
+        {
+         head=head.next;   
+            return head;
+        }
+        //否则，需要另外的标志位，从head开始，在p从n开始时一起向右移动，直到p.next为null。
+        ListNode q=head;
+        ListNode w=q;
+        while(p.next!=null)
+        {
+            p=p.next;
+            w=q;
+            q=q.next;
+        }
+        w.next=q.next;//因为是c#，不需要free删去的节点的内存了。
+        return head;
+    }
+}
