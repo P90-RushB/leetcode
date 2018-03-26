@@ -1,0 +1,52 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int x) { val = x; }
+ * }
+ */
+ //对k条链表遍历，复杂度n，遍历后的整形数组排序，最后遍历一次赋值给结果链表。
+ //对k条有序链表合成一条有序链表。思路：首先遍历一遍k条链表的头节点，对于为空的剔除。然后用一个整形list存储所有k条链表的数（并未排序）
+ //对k条链表遍历。  然后对整形list排序。赋给要返回的ListNode
+public class Solution {
+    public ListNode MergeKLists(ListNode[] lists) {
+        List<ListNode> all=new List<ListNode>();
+        for(int i=0;i<lists.Length;i++)
+        {
+            if(lists[i]==null)
+                continue;
+            all.Add(lists[i]);
+        }
+        
+        List<int> aa=new List<int>();
+        while(all.Count>0)
+        {
+             for(int j=0;j<all.Count;j++)
+              {
+                 
+                
+           aa.Add(all[j].val);
+            all[j]=all[j].next;
+            if(all[j]==null)
+                  {
+                all.RemoveAt(j);  
+                      
+                  }
+                
+              }
+        }
+        if(aa.Count==0)
+            return null;
+        aa.Sort();
+        
+        ListNode res=new ListNode(0);
+        ListNode t=res;
+        for(int i=0;i<aa.Count;i++)
+        {
+            res.next=new ListNode(aa[i]);
+            res=res.next;
+        }
+       return t.next;
+    }
+}
