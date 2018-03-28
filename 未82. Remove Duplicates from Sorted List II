@@ -1,0 +1,40 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode DeleteDuplicates(ListNode head) {
+       if(head==null)
+           return null;
+        ListNode FakeHead=new ListNode(0);
+        FakeHead.next=head;
+        ListNode pre=FakeHead;
+        ListNode cur=head;
+     while(cur!=null)
+     {
+         while(cur.next!=null&&cur.val==cur.next.val)
+         {
+             cur=cur.next;
+             
+         }
+        
+        //如果if成立，说明cur本就不重复，
+        if(pre.next==cur)
+        {//pre的下一位：cur如果本就不重复，那pre就可以直接等于pre.next(即cur)
+            pre=pre.next;
+        }
+        else{//否则，说明原本的cur是重复的，经过while循环后，cur要么为null，要么为重复的值的最后一个
+            pre.next=cur.next;//则让pre.next=cur.next就跳过了当前重复的值的那些节点。
+        }
+        cur=cur.next;//当pre.next==cur的情况，例如1,2， 3……  由于2只有一个，执行的是pre=pre.next,cur=cur.next; 
+     }
+         //此while终止条件为cur.next为空或者与cur不等了
+        
+        //当pre.next!=cur(即else的情况),例如1,2，2,2,3,3……经过一次后，跳过了所有的2。pre为1，cur为3
+        return FakeHead.next;
+    }
+}
