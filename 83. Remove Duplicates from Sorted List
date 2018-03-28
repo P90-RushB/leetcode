@@ -1,0 +1,30 @@
+//自己写的，也许不是很好
+public class Solution {
+    public ListNode DeleteDuplicates(ListNode head) {
+        if(head==null)
+            return null;
+    ListNode fakeHead=new ListNode(head.val-1);
+        fakeHead.next=head;
+        ListNode pre=fakeHead;
+        ListNode cur=head;
+        
+        while(cur!=null)
+        {
+            while(cur.next!=null&&cur.next.val==cur.val)
+                cur=cur.next;
+            if(cur==pre.next)
+            {
+                pre=cur;
+            cur=pre.next;
+            }
+            else
+            {
+                pre.next=cur;
+                pre=pre.next;
+                cur=pre.next;
+            }
+        }
+        return fakeHead.next;
+    }
+   
+}
