@@ -1,0 +1,40 @@
+思路在141的链接里有详细的，基本上就是先会做141（判断是不是环形链表），然后利用链接里讲的重要结论，当快慢指针相遇时，把一个指针重新指到head，另一个
+不动，然后两个指针都每次右移一个位置，则相等时就是环的开始。
+
+
+给一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
+说明：不应修改给定的链表。
+补充：
+你是否可以不用额外空间解决此题？
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode DetectCycle(ListNode head) {
+        ListNode slow=head,fast=head;
+        while(fast!=null&&fast.next!=null)
+        {
+            slow=slow.next;
+            fast=fast.next.next;
+            if(slow==fast)
+                break;
+        }
+        if(fast==null||fast.next==null)
+            return null;
+        slow=head;
+        while(fast!=slow)
+        {
+            fast=fast.next;
+            slow=slow.next;
+        }
+        return fast;
+    }
+}
