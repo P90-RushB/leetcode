@@ -1,0 +1,68 @@
+给定一个单链表L：L0→L1→…→Ln-1→Ln,
+重新排列后为： L0→Ln→L1→Ln-1→L2→Ln-2→…
+
+必须在不改变节点的值的情况下进行原地操作。
+
+例如，
+给定链表 {1,2,3,4}，按要求重排后为 {1,4,2,3}。
+
+
+思路：首先利用快慢两指针，找到链表的中间节点。分为前半和后半部分，对后半部分节点反转（这是基础操作，一定要会）。然后每次插后半部分
+的一个节点到前半部分。
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public void ReorderList(ListNode head) {
+       if(head==null||head.next==null)
+           return;
+        ListNode slow=head,fast=head,p=head,q=head;
+        while(fast.next!=null&&fast.next.next!=null)//找中间节点的格式
+        {
+       
+            slow=slow.next;
+            fast=fast.next.next;
+        }//当while结束后，若链表为偶数个节点，slow为前一半的最后一个；若链表为奇数个节点，slow为前一半的最后一个，且前一半比后一半多一个节点
+        fast=slow.next;
+        
+        slow.next=null;
+        fast=reverse(fast);
+        slow=head;
+      
+        ListNode first=head;
+        ListNode second=fast;
+        ListNode pre=head;
+        while(second!=null)//将两个链表一个个交叉的格式
+        {
+            ListNode next=first.next;
+            first.next=second;
+            second=second.next;
+            first=first.next;
+            first.next=next;
+            first=first.next;
+        }
+       
+        
+    }
+    ListNode reverse(ListNode head)
+    {
+        if(head==null)
+            return head;
+        ListNode dummy=new ListNode(0);
+        dummy.next=head;
+        ListNode cur=head;
+        while(cur.next!=null)
+        {
+            ListNode tmp=cur.next;
+            cur.next=tmp.next;
+            tmp.next=dummy.next;
+            dummy.next=tmp;
+        }
+        return dummy.next;
+    }
+}
