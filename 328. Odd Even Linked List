@@ -1,0 +1,35 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode OddEvenList(ListNode head) {
+        if(head==null||head.next==null)//首先判断是否是特殊情况，若头节点或者头的下一个是空，则不用再操作。
+            return head;
+        ListNode first=head;//用first操作奇数节点，将奇数节点连接
+        ListNode second=head.next;//用second操作偶数节点，将偶数节点连接。
+        ListNode lianjie=second;//记录偶数节点的头，也就是原第二个节点。
+        while(first.next!=null&&second.next!=null)//当奇数节点的next和偶节点的next都不为空时，继续循环。
+        {//first.next!=null的判断实际就是先判断second是否为null
+            first.next=first.next.next;
+            first=first.next;
+            second.next=second.next.next;
+            second=second.next;
+        }
+        // if(first.next.next!=null){
+        //     first.next=first.next.next;
+        //     first=first.next;
+        // }
+        
+        //当上面的循环结束后，有两种情况，如果原来有偶数个节点，则例如1，2，3，4，null。3.next不为null，而4.next为null，跳出。
+        //若原来有奇数个节点，如1,2,3,4,5,null。  则3.next不为null，4.next不为null，则first为5，second为null，跳出。也没毛病。
+        first.next=lianjie;
+        return head;
+        
+   
+    }
+}
