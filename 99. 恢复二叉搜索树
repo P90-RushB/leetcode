@@ -1,0 +1,37 @@
+public class Solution {
+   TreeNode s1,s2,pre;//用pre保存遍历到的当前节点的前一节点。用s1和s2来保存识别出的错误的两个节点。
+    public void RecoverTree(TreeNode root) {
+       if(root==null)
+           return;
+        s1=s2=pre=null;
+        hehe(root);//递归中序遍历的函数。
+        int t=s1.val;
+        s1.val=s2.val;
+        s2.val=t;
+    }
+    public void hehe(TreeNode root)
+    {
+        if(root==null)//简单情况，跳出
+            return;
+            
+        hehe(root.left);//左
+        
+        //根
+        if(pre!=null&&pre.val>root.val)
+        {
+            if(s1==null)//这里的意思是，如果s1为null，说明这是第一次不正确，将s1赋值为pre，s2赋值为root。因为
+            //有两种情况：1.正好是相邻两个值反了，对应这种情况，s1，s2保存前一个节点（pre）和当前节点（root）。
+            //若为第二种情况：两个错误节点不相邻，则找到第二个错误节点时，s1已经不为null，即运行到else中，将s2更新为此时的root。
+            {
+                s1=pre;
+                s2=root;
+            }
+            else
+                s2=root;
+        }
+        pre=root;
+        
+        
+        hehe(root.right);//右
+    }
+}
