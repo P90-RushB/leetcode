@@ -1,0 +1,23 @@
+这题和102 二叉树的层次遍历是一样的，只不过最后反转了一下。
+ public IList<IList<int>> LevelOrderBottom(TreeNode root) {
+       var list=new List<IList<int>>();
+        LevelOrder(root,list,0);
+        if(list.Count()==0)
+            return list;
+        var list1=new List<IList<int>>();
+        for(int i=list.Count()-1;i>=0;i--)
+        {
+            list1.Add(list[i]);
+        }
+        return list1;
+    }
+    void LevelOrder(TreeNode root,IList<IList<int>> list,int depth)
+    {
+        if(root==null)
+            return;
+        while(list.Count()<depth+1)
+            list.Add(new List<int>());
+        list[depth].Add(root.val);
+        LevelOrder(root.left,list,depth+1);
+        LevelOrder(root.right,list,depth+1);
+    }
