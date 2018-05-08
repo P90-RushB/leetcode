@@ -1,0 +1,17 @@
+此题不同于一般的层序遍历，一般的层序遍历按照套路用一个队列就行了，但是这个还要输出层的信息。当然也可以用队列，这里参考的一个方法其实是用了先序遍历，
+在先序遍历时传入一个depth深度值，将所处某一深度的val存入同一深度的List中。
+public IList<IList<int>> LevelOrder(TreeNode root) {
+       List<IList<int>> list=new List<IList<int>>();
+        PreOrder(root,list,0);
+        return list;
+    }
+    void PreOrder(TreeNode root,IList<IList<int>> list,int depth)
+    {
+        if(root==null)
+            return;
+        while(list.Count()<depth+1)
+            list.Add(new List<int>());
+        list[depth].Add(root.val);
+        PreOrder(root.left,list,depth+1);
+        PreOrder(root.right,list,depth+1);
+    }
