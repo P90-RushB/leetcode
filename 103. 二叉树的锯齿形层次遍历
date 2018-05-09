@@ -1,0 +1,19 @@
+此题和102 二叉树的层次遍历基本一毛一样的套路，只不过是按照层的深度depth是奇数还是偶数，来从前插还是从后插。
+ public IList<IList<int>> ZigzagLevelOrder(TreeNode root) {
+        var list=new List<IList<int>>();
+        return list;
+        
+    }
+    void PreOrder(List<IList<int>> list,TreeNode root,int depth)
+    {
+        if(root==null)
+            return;
+        while(list.Count<depth+1)
+            list.Add(new List<int>());
+        if(depth%2==0)
+            list[depth].Add(root.val);
+        else
+            list[depth].Insert(0,root.val);
+        PreOrder(list,root.left,depth+1);
+        PreOrder(list,root.right,depth+1);
+    }
