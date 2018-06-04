@@ -1,0 +1,28 @@
+这有一个计算质数的算法：埃拉托斯特尼筛法
+
+public class Solution {
+    public int CountPrimes(int n) {
+     bool[] isPrime=new bool[n];
+        if(n<2)
+            return 0;
+        for(int i=0;i<isPrime.Length;i++)
+            isPrime[i]=true;
+        isPrime[0]=false;
+        int res=0;
+        int limit=(int)Math.Floor(Math.Sqrt(n));
+        for(int i=2;i<=limit;i++)
+        {
+            if(isPrime[i-1])
+            {
+                for(int j=i*i;j<n;j+=i)
+                {
+                isPrime[j-1]=false;    
+                }
+            }
+        }
+        for(int j=0;j<n-1;++j)
+            if(isPrime[j])
+                res++;
+          return res;  
+    }
+}
