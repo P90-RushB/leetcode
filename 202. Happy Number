@@ -1,0 +1,56 @@
+这题有数学上的规律是总会算到4，但是懒得看，用普通的方法解就好。
+
+利用hashset（c#）或set（python上）构造一个不重复集合
+
+c#：
+public class Solution {
+    public bool IsHappy(int n) {
+        HashSet<int> unhappy=new HashSet<int>();
+        while(n!=1)
+        {
+            n=DigitSquareSum(n);
+            if(unhappy.Contains(n))
+               return false;
+            unhappy.Add(n);
+        }
+        return true;
+    }
+    
+    private int DigitSquareSum(int n)
+    {
+        if(n<10)
+            return n*n;
+        int sum=0;
+        while(n>0)
+        {
+            int i=n%10;
+            sum+=i*i;
+            n=n/10;
+        }
+        return sum;
+    }
+}
+
+python：
+class Solution:
+    def isHappy(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        if n==1:
+            return True
+        seen=set()
+        while n not in seen:
+            seen.add(n)
+            n=self.calculate(n)
+        if n==1:
+            return True
+        else :
+            return False
+    def calculate(self,num):
+        ret=0
+        while num:
+            ret+=(num%10)**2
+            num=num//10
+        return ret
