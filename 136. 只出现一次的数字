@@ -1,0 +1,26 @@
+利用异或按位操作，因为每两个相同的数字异或起来每一位都为0，相当于抵消，最后只剩下单个的那个数字
+
+c#：
+ 
+ public class Solution {
+    public int SingleNumber(int[] nums) {
+        int x=0;
+        foreach(int num in nums)
+        {
+         x=x^num;
+        }
+        return x;
+    }
+}
+
+python：
+ class Solution(object):
+    def singleNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        ans = 0
+        for x in nums:
+            ans = ans ^ x
+        return ans
