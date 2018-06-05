@@ -1,0 +1,40 @@
+#这题很简单，直接用哈希表，当然，也可以先排序，然后遍历看相邻的两个值是否相等，这时时间复杂度取决于排序的算法。
+
+c#1：
+用dictionary：
+public class Solution {
+    public bool ContainsDuplicate(int[] nums) {
+        Dictionary<int,int> hui=new Dictionary<int,int>();
+        for(int i=0;i<nums.Length;i++)
+        {
+            if(hui.ContainsKey(nums[i]))
+                return true;
+            else
+            {
+                hui.Add(nums[i],i);
+            }
+        }
+        return false;
+    }
+}
+
+c#2：
+用HashSet：
+public class Solution {
+    public bool ContainsDuplicate(int[] nums) {
+       
+        int len=nums.Length;
+        if(len==0)
+            return false;
+        else
+        {
+            HashSet<int> hash=new HashSet<int>();
+            for(int i=0;i<len;i++)
+            {
+                if(!hash.Add(nums[i]))
+                    return true;
+            }
+            return false;
+        }
+    }
+}
