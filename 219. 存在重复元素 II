@@ -1,0 +1,39 @@
+题目的大意是，给定一个整数数组与一个整数k，当且仅当存在两个不同的下标i和j，满足：nums[i] = nums[j]，
+且| i - j | <= k时返回true，反之返回false。
+
+c#:
+public class Solution {
+    public bool ContainsNearbyDuplicate(int[] nums, int k) {
+    Dictionary<int,int> map=new Dictionary<int,int>();
+      for(int i=0;i<nums.Length;i++)
+      {
+          if(map.ContainsKey(nums[i]))
+          {
+              if(i-map[nums[i]]<=k)
+                  return true;
+              else map[nums[i]]=i;
+          }
+          else
+          {
+              map.Add(nums[i],i);
+          }
+      }
+        return false;
+    }
+}
+
+
+python:
+class Solution:
+    def containsNearbyDuplicate(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: bool
+        """
+        exist={}
+        for i in range(len(nums)):
+            if nums[i] in exist and i-exist[nums[i]]<=k:
+                return True
+            exist[nums[i]]=i
+        return False
