@@ -1,0 +1,53 @@
+这题很简单，用哈希表，看一个表与另一个表的每个字母的个数是否一样。
+
+c#：字典与排序两种方法
+public class Solution {
+    public bool IsAnagram(string s, string t) {
+//         Dictionary<char,int> oc=new Dictionary<char,int>();
+//         int m=s.Length,n=t.Length;
+//         if(m!=n)
+//             return false;
+//         for(int i=0;i<m;i++)
+//         {
+//             if(oc.ContainsKey(s[i]))
+//             {
+//                oc[s[i]]++; 
+//             }
+//             else
+//             {
+//                 oc.Add(s[i],1);
+//             }
+//         }
+//         for(int j=0;j<n;j++)
+//         {
+//             if(!oc.ContainsKey(t[j]))
+//                 return false;
+//             if(oc[t[j]]==0)
+//                 return false;
+//             oc[t[j]]--;
+            
+//         }
+//         return true;
+        
+        char[] sArr=s.ToCharArray();
+        char[] tArr=t.ToCharArray();
+        Array.Sort(sArr);
+        Array.Sort(tArr);
+        return new String(sArr).Equals(new string(tArr));
+    }
+}
+
+python：
+class Solution:
+    def isAnagram(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        dic1,dic2={},{}
+        for item in s:
+            dic1[item]=dic1.get(item,0)+1  #dic的get如果没有get到，会返回后面的值（这里是0）
+        for item in t:
+            dic2[item]=dic2.get(item,0)+1
+        return dic1==dic2
