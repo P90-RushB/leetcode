@@ -1,0 +1,55 @@
+此题的套路和Isomorphic Strings这题一样，同样用两个字典来判断是否对应
+
+c#：
+public class Solution {
+    public bool WordPattern(string pattern, string str) {
+      if(pattern==null&&str==null)
+          return true;
+      if(pattern==null||str==null)
+          return false;
+        string[] words=str.Split("".ToCharArray(),StringSplitOptions.RemoveEmptyEntries);
+        if(pattern.Length!=words.Length)
+            return false;
+        Dictionary<char,string> dict1=new Dictionary<char,string>();
+        Dictionary<string,char> dict2=new Dictionary<string,char>();
+        for(int i=0;i<pattern.Length;i++)
+        {
+            if(!dict1.ContainsKey(pattern[i])&&!dict2.ContainsKey(words[i]))
+            {
+                dict1.Add(pattern[i],words[i]);
+                dict2.Add(words[i],pattern[i]);
+            }
+            else if(dict1.ContainsKey(pattern[i])&&dict2.ContainsKey(words[i])&&
+                   dict1[pattern[i]]==words[i]&&dict2[words[i]]==pattern[i])
+            {
+                continue;
+            }
+            else
+            {
+                return false;
+            }
+                
+            
+        }
+        return true;
+    }
+}
+
+python：
+class Solution:
+    def wordPattern(self, pattern, str):
+        """
+        :type pattern: str
+        :type str: str
+        :rtype: bool
+        """
+        dic={}
+        strs=str.split()
+        if len(pattern)!=len(strs) or len(set(pattern))!=len(set(strs)):
+            return False
+        for i,v in enumerate(pattern):
+            if v not in dic:
+                dic[v]=strs[i]
+            elif dic[v]!=strs[i]:
+                    return False
+        return True
