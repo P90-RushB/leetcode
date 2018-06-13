@@ -1,0 +1,41 @@
+这题很简单，只要用字典遍历记录一遍每个字符出现的次数。然后第二次遍历字符串，找到第一个只出现了一次的字符的索引。
+
+c#：
+public class Solution {
+    public int FirstUniqChar(string s) {
+        Dictionary<char,int> dic=new Dictionary<char,int>();
+        for (int i=0;i<s.Length;i++)
+        {
+            if(dic.ContainsKey(s[i]))
+                dic[s[i]]++;
+            else 
+                dic[s[i]]=1;
+        }
+        for(int i=0;i<s.Length;i++)
+        {
+            if(dic[s[i]]==1)
+                return i; 
+        }
+        return -1;
+    }
+}
+
+python :
+class Solution:
+    def firstUniqChar(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        dic={}
+        for i in s:
+            if i in dic:
+                dic[i]+=1
+            else:
+                dic[i]=1
+        t=0
+        while t<len(s):
+            if dic[s[t]]==1:
+                return t
+            t+=1
+        return -1
