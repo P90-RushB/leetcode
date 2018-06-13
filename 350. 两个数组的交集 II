@@ -1,0 +1,48 @@
+这题与上道略有不同，对于重复的也要记录，就不能只用HashSet了，需要用字典记录出现的次数。
+c#：
+public class Solution {
+    public int[] Intersect(int[] nums1, int[] nums2) {
+        Dictionary<int,int> dic=new Dictionary<int,int>();
+       List<int> lst=new List<int>();
+        
+        foreach(int n in nums1)
+        {
+            if(dic.ContainsKey(n))
+                dic[n]+=1;
+            else
+                dic.Add(n,1);
+        }
+        foreach(int n in nums2)
+        {
+            if(dic.ContainsKey(n) && dic[n]>0)
+            {
+                lst.Add(n);
+                dic[n]--;
+            }
+        }
+        return lst.ToArray();
+    }
+}
+
+python：
+class Solution:
+    def intersect(self, nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: List[int]
+        """
+        cntdict={}
+        for n in nums1:
+            if n in cntdict:
+                cntdict[n]+=1
+            else:
+                cntdict[n]=1
+        intersect=[]
+        for n in nums2:
+            if n in cntdict and cntdict[n]>=1:
+                cntdict[n]-=1
+                intersect.append(n)
+                if not cntdict[n]:
+                    del cntdict[n]
+        return intersect
