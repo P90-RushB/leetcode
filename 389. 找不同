@@ -1,0 +1,53 @@
+此题很简单，用字典，唯一要注意的是不一定t中多的字符在s中没有，而有可能是t中某个字符出现的个数比s中多一个
+c#
+public class Solution {
+    public char FindTheDifference(string s, string t) {
+        Dictionary<char,int> dic=new Dictionary<char,int>();
+        for (int i=0;i<s.Length;i++)
+        {
+            if(dic.ContainsKey(s[i]))
+                dic[s[i]]++;
+            else
+                dic[s[i]]=1;
+        }
+        for(int i=0;i<t.Length;i++)
+        {
+            if(dic.ContainsKey(t[i]))
+            {
+                if(dic[t[i]]==0)
+               return t[i];
+               else
+               dic[t[i]]--;
+            }
+            else return t[i];
+               
+        }
+               return 'a';
+    }
+}
+
+python：
+class Solution:
+    def findTheDifference(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: str
+        """
+        dic={}
+        i=0
+        while i<len(s):
+            if s[i] in dic:
+                dic[s[i]]+=1
+            else:
+                dic[s[i]]=1
+            i+=1
+        for i in t:
+            if i in dic:
+                if dic[i]==0:
+                    return i
+                else:
+                    dic[i]-=1
+            else:
+                return i
+        return 'a'
