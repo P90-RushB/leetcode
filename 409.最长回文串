@@ -1,0 +1,67 @@
+此题也不难，只是要想清楚思路：我的思路：要想最长回文串，偶数个的字符肯定都要加上，然后奇数个的字符中，出现次数最大的
+那个奇数个的字符放在回文串的中间，所以要加上。然后其他的不是出现最多（或者与最多的奇数个的字符一样多的）的可以去掉
+一个，然后就是偶数个，也要加入回文串中。这就是是思路。做法就用字典就行了。
+c#
+public class Solution {
+    public int LongestPalindrome(string s) {
+        Dictionary<char,int> dic=new Dictionary<char,int>();//构造字符与出现次数的字典
+        for(int i=0;i<s.Length;i++)//遍历字典将字符与对应出现的个数保存
+        {
+            if(dic.ContainsKey(s[i]))
+                dic[s[i]]++;
+            else
+                dic[s[i]]=1;
+        }
+        int sum=0;//回文串最大字符数
+        int max=0;//奇数个的字符中出现最多次数的字符的次数
+        foreach (char i in dic.Keys)
+        {
+            if (dic[i]%2==0)//如果这个字符出现了偶数次
+            {
+                sum+=dic[i];//直接加进sum
+            }
+            else//出现了奇数次
+            {
+                if(dic[i]>max)//如果当前奇数个的字符出现的次数大于已知的max
+                {
+                    if(max!=0)//做这个判断是因为刚开始时max=0，sum会加上负一
+                        sum+=max-1;
+                    max=dic[i];
+                }
+                 else//如果当前出现的奇数个的字符的次数并没有大于max
+                 {
+                     sum+=dic[i]-1;//sum加上出现的次数减一
+                 }
+            }
+        }
+        
+        sum+=max;//最后加上出现的最大次数的奇数字符
+        return sum;
+    }
+}
+python :
+class Solution:
+    def longestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        dic={}
+        i=0
+        for i in s:
+            
+            dic[i]=dic.get(i,0)+1
+        sum=0
+        max=0
+        for i in dic:
+            if dic[i]%2==0:
+                sum+=dic[i]
+            else:
+                if dic[i]>max:
+                    if max!=0:
+                        sum+=max-1
+                    max=dic[i]
+                else:
+                    sum+=dic[i]-1
+        sum+=max
+        return sum
