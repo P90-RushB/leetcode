@@ -1,0 +1,22 @@
+#这是基础而且比较经典的动态规划题
+#状态转移公式：F（n）=F（n-1）+F（n-2），F（n-1）和F（n-2）为F（n）的最优子结构，边界：F（1）和F（2）
+class Solution:
+    def climbStairs(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n<=0:
+            return None
+        elif n<=2:
+            return n
+        else:
+            method=0
+            a=1 
+            b=2
+            for i in range(3,n+1):
+                method=a+b
+                a=b
+                b=method
+            return method
+    
