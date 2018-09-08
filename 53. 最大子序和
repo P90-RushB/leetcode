@@ -1,0 +1,16 @@
+#利用动态规划，时间复杂度O（n），空间复杂度O（1）  
+#思路：设状态S[i],表示以i为结尾的最大子序和。则S[i]=max(S[i-1]+num[i],num[i]),也就是说以i为结尾的最大子序和只
+#取决于以i-1结尾的最大子序和。边界：S[0】=num【0】
+class Solution:
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if not nums:
+            return 0
+        curSum=maxSum=nums[0]
+        for num in nums[1:]:
+            curSum=max(num,curSum+num)
+            maxSum=max(maxSum,curSum)
+        return maxSum
