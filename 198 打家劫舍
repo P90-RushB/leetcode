@@ -1,0 +1,22 @@
+#动态规划题 思路：如果总共有i家，能抢到的最多钱表示为F（i），则F（i）=max(F(i-2)+nums[i],F(i-1)),边界：只有一家或两家，则抢最多的那家。
+class Solution:
+    def rob(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+     
+        if not nums:
+            return 0;
+        if len(nums)<=2:
+            return max(nums)
+        
+        else:
+            ma0=nums[0]
+            ma1=max(ma0,nums[1])            
+            for i in range(2,len(nums)):
+                ma2=max(ma0+nums[i],ma1)
+                ma0=ma1
+                ma1=ma2
+                
+            return ma2
