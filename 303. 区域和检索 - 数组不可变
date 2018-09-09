@@ -1,0 +1,38 @@
+#这道题让求一个数组nums的从i下标到j下标的和，但是很明显直接遍历每个数求和不高效，所以要首先用数组dp[i]表示[0,i]区间
+#的数字之和，然后要求i到i之间的话，其实就是dp[j]-dp[i-1]
+#python
+
+def __init__(self,nums):
+self.nums=nums
+self.dp=[]#这个数组每个元素self.dp[i]代表着从0到i的元素和
+for t in range(0,len(self.nums)):
+    self.dp.append(0)
+if len(self.nums)>=1:
+    self.dp[0]=self.nums[0]
+    for k in range(1,len(self.nums)):
+        self.dp[k]=self.nums[k]+self.dp[k-1]
+def sumRange(self,i,j):
+    if i==0:
+        return self.dp[j]
+    else:
+    return self.dp[j]-self.dp[i-1]
+    
+    
+    #c++:
+    class NumArray {
+    private:
+    vector<int> dp;
+public:
+    NumArray(vector<int> nums) {
+        dp=nums;
+        for(int i=1;i<nums.size();i++)
+        {
+            dp[i]+=dp[i-1];
+        }
+    }
+    
+    int sumRange(int i, int j) {
+        return i==0?dp[j]:dp[j]-dp[i-1];
+    }
+};
+
