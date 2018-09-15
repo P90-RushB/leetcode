@@ -1,3 +1,22 @@
+#思路：遍历一次数组，保存一个从0开始的计数，当遍历到的数不是要排除的数，就在计数位置也等于这个数，然后计数点加一
+class Solution:
+    def removeElement(self, nums, val):
+        """
+        :type nums: List[int]
+        :type val: int
+        :rtype: int
+        """
+        res=0
+        for i in range(len(nums)):
+            if nums[i]!=val:
+                nums[res]=nums[i]
+                res+=1
+        return res
+
+
+
+
+
 public class Solution {
     public int RemoveElement(int[] nums, int val) {
   int j=0;
