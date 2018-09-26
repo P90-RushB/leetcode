@@ -1,0 +1,50 @@
+这道题可以在类中建立两个普通的栈，一个起普通的栈功能，另一个记录最小数，增加数时如果增加的数小于等于记录栈的栈顶，就加上；出栈时，如果出去的数和记录栈栈顶的数相等，
+记录栈就弹出。
+class MinStack:
+
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.zhan=[]
+        self.minzhan=[]
+
+    def push(self, x):
+        """
+        :type x: int
+        :rtype: void
+        """
+        self.zhan.append(x)
+        if len(self.minzhan)==0 or self.minzhan[-1]>=x:
+            self.minzhan.append(x)
+
+    def pop(self):
+        """
+        :rtype: void
+        """
+        if len(self.zhan)>0 and len(self.minzhan)>0 and self.zhan[-1]==self.minzhan[-1]:
+            self.minzhan.pop()
+        if len(self.zhan)>0:
+            self.zhan.pop()
+
+
+    def top(self):
+        """
+        :rtype: int
+        """
+        if len(self.zhan)>0:
+            return self.zhan[-1]
+
+    def getMin(self):
+        """
+        :rtype: int
+        """
+        return self.minzhan[-1] if len(self.minzhan)>0 else 0
+
+
+# Your MinStack object will be instantiated and called as such:
+# obj = MinStack()
+# obj.push(x)
+# obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.getMin()
