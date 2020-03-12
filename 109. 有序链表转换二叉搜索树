@@ -1,0 +1,45 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+# 这题和108 把有序数组转换成bst思路一样，用二分。不同的是，链表找出中点比较麻烦，
+# 需要用到快慢指针找出中点。
+class Solution:
+    def sortedListToBST(self, head: ListNode) -> TreeNode:
+        # 递归出口
+        if not head: return None
+        if not head.next: return TreeNode(head.val)
+
+        slow, fast = head, head
+        last = slow
+
+        # 对快慢指针的理解：
+        #   需要的三个变量：slow,fast,last,开始时都指向head
+        #   每次当fast.next and fast.next.next都不为空，继续循环
+        #   每次依次运行下面三步，这样的结果是：
+        #      可以分情况考虑，链表节点偶数个和奇数个的情况：
+        #         1.假设链表3个节点，依次循环后就跳出，跳出时，slow为中点（第二个节点）
+        #           last为左半部分最后一个节点。跳出循环后，再把fast置为slow.next,即右半开头。
+        #         2. 假设链表4个节点，仍是循环依次后就退出。slow仍作为中点（第二个节点），
+        #           这说明中点是相对靠左的。其他和情况1一样。         
+        while fast.next and fast.next.next:
+            last = slow
+            slow = slow.next
+            fast = fast.next.next
+        
+        fast = slow.next
+        last.next = None
+        cur = TreeNode(slow.val)
+        if head != slow:
+            cur.left = self.sortedListToBST(head)
+        cur.right = self.sortedListToBST(fast)
+        return cur
