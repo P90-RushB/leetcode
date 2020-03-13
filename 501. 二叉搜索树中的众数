@@ -1,0 +1,62 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def findMode(self, root: TreeNode) -> List[int]:
+        # # 方法一，不使用bst的性质，遍历，直接用一个字典来统计值对应出现的次数。
+        # res = []
+        # dic = {}
+        # mx = 0
+
+        # def inorder(node):
+        #     nonlocal dic, mx
+
+        #     if not node: return 
+        #     inorder(node.left)
+        #     if node.val not in dic:
+        #         dic[node.val] = 1
+        #     else:
+        #         dic[node.val] += 1
+        #     mx = max(mx, dic[node.val])
+        #     inorder(node.right)
+        
+        # inorder(root)
+
+        # for k,v in dic.items():
+        #     if v == mx:
+        #         res.append(k)
+        # return res
+
+        # 题目问能不能不用额外空间，意思就是不用字典，那就要用bst的中序有序的性质
+        #  具体
+        res = []
+        # mx表示出现过相同值最多的次数， cnt表示当前值重复出现的次数。 当cnt大于mx，则清空res，重置mx为cnt，并把当前值加入res；
+        # 如果只是cnt == mx，则把当前值加入res。
+        mx, cnt = 0, 1
+        pre = None
+
+        def inorder(node):
+            nonlocal res, mx, cnt, pre
+
+            if not node: return
+
+            inorder(node.left)
+
+            if pre:
+                cnt = cnt + 1 if node.val == pre.val else 1
+            
+            if cnt >= mx:
+                if cnt > mx: res = []
+                res.append(node.val)
+                mx = cnt
+            
+            pre = node
+
+            inorder(node.right)
+
+        inorder(root)
+        return res
