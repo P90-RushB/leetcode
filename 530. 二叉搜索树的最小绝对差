@@ -1,0 +1,32 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def getMinimumDifference(self, root: TreeNode) -> int:
+        # 第一次写的错误在于，我直接判断当前节点和其左右的差的绝对值是否是最小。
+        # 错误原因是：bst的直接左右子节点并不是其逻辑上真正的前驱和后继，中序遍历的相邻
+        # 左右才是。
+        # last 用来保存中序遍历的上一个值。
+        last = 0
+        init = True
+        minv = float('inf')
+        def traverse(node):
+            nonlocal last, init, minv
+            if not node: return 
+            traverse(node.left)
+
+            if init: 
+                last = node.val
+                init = False
+            
+            elif node.val - last < minv:
+                minv = node.val - last
+            last = node.val
+            
+            traverse(node.right)
+        traverse(root)
+        return minv
