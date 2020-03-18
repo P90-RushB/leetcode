@@ -1,3 +1,18 @@
+class Solution:
+    def isValid(self, s: str) -> bool:
+        dic = {'(':')', '{':'}', '[':']'}
+        stack = []
+        for i in s:
+            if i in '({[':
+                stack.append(i)
+            elif not stack or dic[stack.pop()] != i:
+                return False
+        return not stack 
+        
+ 
+
+######################### 下面的代码时曾经，不熟python的我：哈哈哈 ################################
+
 这道题验证输入的字符串是否是括号字符串，包括大括号中括号小括号。
 利用栈，遍历字符串，古国当前字符为左半边的括号，就压栈，如果遇到右半边括号，判断：
 如果此时栈是空的，当然就不符合了，返回false，如果不为空，取出栈顶元素和当前字符对比是否符合对称
