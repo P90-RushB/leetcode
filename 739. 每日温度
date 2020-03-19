@@ -1,0 +1,23 @@
+class Solution:
+    def dailyTemperatures(self, T: List[int]) -> List[int]:
+        # 暴力搜索肯定gg。
+        # 应该是用递减栈。栈内只存更小的元素。当碰到一个元素比栈顶大，
+        # 栈顶位置的结果当然就是1了，也就是右边邻居比它大。
+        # 然后把栈顶弹出，新的栈顶要是还小于当前值，那也算出来（就是栈顶右边的右边比栈顶大，所以是2）
+        # ... 直到栈顶大于当前值，把当前值入栈，继续循环
+
+        n = len(T)
+        res = [0] * n
+        s = []
+        for i in range(n):
+
+            # 若不符合最小栈，开始计算。
+            while s and T[s[-1]] < T[i]:
+                res[s[-1]] = i - s[-1]
+                s.pop()
+
+            # 要是栈是空（只有开局是空）或者栈顶元素大于当前元素（符合最小栈特性），就可以进栈
+            # if not s or T[s[-1]] >= T[i]:
+            s.append(i)
+
+        return res
