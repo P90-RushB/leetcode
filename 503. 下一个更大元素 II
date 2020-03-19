@@ -1,0 +1,17 @@
+class Solution:
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        # 这道题是 739. Daily Temperatures (Medium) 的进阶。
+        # 当然，就进阶了一点点点，就是变成了循环的搜索。
+        # 实际做的时候很简单，把原数组*2，然后按739的做法，用递减栈。最后，只取前一半就是结果。
+        nums = nums * 2
+        n = len(nums)
+        s = []
+        res = [-1] * n
+        for i in range(n):
+            while s and nums[s[-1]] < nums[i]:
+                res[s[-1]] = nums[i]  
+                s.pop()
+            # if not s or nums[s[-1]] >= nums[i]:
+            s.append(i)
+
+        return res[0:(n//2)]
