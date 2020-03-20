@@ -1,0 +1,30 @@
+class Solution:
+    def findLHS(self, nums: List[int]) -> int:
+        # 注意，子数组不需要是连续的。
+        # 字典的应用。先遍历一遍，建立每个数字跟其出现次数之间的映射，
+        # 然后再遍历每个数字的时候，只需在 HashMap 中查找该数字加1是
+        # 否存在，存在就更新结果 res
+
+        # res = 0
+        # dic = {}
+        # for i in nums:
+        #     dic[i] = dic[i] + 1 if i in dic else 1
+        
+        # for k,v in dic.items():
+        #     if k+1 in dic:
+        #         res = max(res, v + dic[k+1])
+
+        # return res
+
+        # 方法二，和方法一基本一样，但是可以只用一个for循环，这时不仅需要检查k+1是否存在，
+        # 还要检查k-1是否存在。
+        res = 0
+        dic = {}
+        for i in nums:
+            dic[i] = dic[i] + 1 if i in dic else 1
+
+            if i + 1 in dic:
+                res = max(res, dic[i] + dic[i+1])
+            if i -1 in dic:
+                res = max(res, dic[i] + dic[i-1])
+        return res
