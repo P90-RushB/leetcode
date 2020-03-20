@@ -1,0 +1,21 @@
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+    # 这题比较简单，就是用字典。
+    # 首先，如果俩串不相等，直接false；
+    # 遍历第一个字符串，加到字典中。
+    # 遍历第二个字典，在两串长度相等的条件下，如果不是字母异位词，每次减一肯定会有词的值小于0，那么就false。
+    # 没发现异常，就true
+        if len(s) != len(t):
+            return False
+
+        dic = {}
+        for i in s:
+            dic[i] = dic[i] + 1 if i in dic else 1
+        
+        for i in t:
+            if i not in dic:
+                return False
+            dic[i] -= 1
+            if dic[i] == -1: return False 
+
+        return True
