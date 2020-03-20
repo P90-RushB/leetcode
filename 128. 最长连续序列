@@ -1,0 +1,32 @@
+# 这真是第一道标了个困难，但觉得很简单的题。
+# 这道题是594. 最长和谐子序列的进阶，不过也就进阶了一点点点。先搞懂594，用字典。
+# 而这道题同样是先遍历依次，把元素放入字典。第二次遍历，对每个元素，从分别递减和递增，查找是否都在字典里，统计符合的值的长度，并且，每遍历
+# 到一个，就把该值删除。这样就不会On复杂度了。 
+
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        dic = {}
+        for i in nums:
+            dic[i] = dic[i] + 1 if i in dic else 1
+
+        res = 0
+        
+        # 在字典遍历过程中修改字典元素，报错 RuntimeError: dictionary changed size during                
+        # iteration; 所以不能for k,v in dic.items()里面删除字典的元素
+        # 可以 for k in list(dic.keys())
+        
+        for k in list(dic.keys()):
+            count = 1
+            t = k -1 
+            while t in dic:
+                count += 1
+                dic.pop(t)
+                t -= 1
+            t = k + 1
+            while t in dic:
+                count += 1
+                dic.pop(t)
+                t += 1
+            res = max(res, count)
+        
+        return res
