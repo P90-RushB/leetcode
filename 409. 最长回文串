@@ -1,0 +1,15 @@
+class Solution:
+# 看清题意，是字符串能够组成的最大回文，可以将字符串打乱的，因此就很简单了，用集合，元素为2就+2，并移出set。最后如果集合里还有元素，说明
+# 回文是奇数个字符，+1就完事。
+    def longestPalindrome(self, s: str) -> int:
+
+        max_length = 0
+        letters = set()
+        for c in s:
+            if c in letters:
+                max_length += 2
+                letters.remove(c)
+            else:
+                letters.add(c)
+        
+        return max_length + bool(letters)
