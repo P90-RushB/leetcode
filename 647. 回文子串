@@ -1,0 +1,33 @@
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        # 分为回文子串为奇数和偶数两种情况，每种情况把每个元素当中心，统计。
+
+        # 遍历每个元素，把每个元素当作奇数个字符的中心
+        
+        n = len(s)
+
+        # 首先，每个字符本身，就是一个回文（且属于奇数个数字的类型，因此下面的t直接从1开始）
+        count = n
+
+        # 开始统计从3个字符长度开始的奇数个数字的回文的个数
+        for i in range(n):
+            t = 1
+            while  i-t > -1 and i+t < n:
+                if s[i-t] == s[i+t]:
+                    t += 1
+                    count += 1
+                else:
+                    break
+        
+        # 遍历每个元素，把每个元素当作偶数个字符类型的回文的中点（统一定成靠左边的中点）
+        # 也就是 abba， 第一个b是中点。
+        for i in range(n):
+            t = 1
+            while i-t+1 > -1 and i+t < n:
+                if s[i-t+1] == s[i+t]:
+                    t += 1
+                    count += 1
+                else:
+                    break
+        
+        return count
