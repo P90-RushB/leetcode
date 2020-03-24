@@ -1,0 +1,18 @@
+class Solution:
+    def countBinarySubstrings(self, s: str) -> int:
+        # 注意题目：只包含0和1
+
+        # 直接遍历：每当遍历到当前字符和下个字符不等，从当前开始，左右扩散，累加次数。
+        # 也就是遍历每个字符当作左分界线。
+        count = 0
+        n = len(s)
+        for i in range(n-1):
+            if s[i] != s[i+1]:
+                t = 1
+                while i-t+1 > -1 and i+t < n:
+                    if s[i-t+1] == s[i] and s[i+t] == s[i+1]:
+                        count += 1
+                        t += 1
+                    else:
+                        break
+        return count
