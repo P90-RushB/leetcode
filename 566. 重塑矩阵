@@ -1,0 +1,27 @@
+class Solution:
+# 这题没啥好说的，reshape嘛。
+    def matrixReshape(self, nums: List[List[int]], r: int, c: int) -> List[List[int]]:
+        h = len(nums)
+        w = len(nums[0])
+        
+        if h * w != r * c:
+            return nums
+
+        res = []
+
+        index_row, index_col = 0, 0
+        
+        for _ in range(r):
+            row = []
+            for _ in range(c):
+                row.append(nums[index_row][index_col])
+
+                index_col += 1
+                if index_col == w:
+                    index_col = 0
+                    index_row += 1
+
+            res.append(row)
+
+        return res
+        
