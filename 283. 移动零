@@ -1,0 +1,28 @@
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        # 指针A遍历数组，指针B遍历每一个非0数，把每个B的非0数，赋值到A的每一位，A的剩余部分赋0
+        # n = len(nums)
+        # j = 0
+        # for i in range(n):
+
+            
+        #     while j < n and nums[j] == 0:
+        #         j += 1
+
+        #     if j == n:
+        #         nums[i] = 0
+        #     else:
+        #         nums[i] = nums[j]
+        #         j += 1
+
+
+        # 思路一毛一样，但下面这样就比我上面写的简洁多了
+        n = len(nums)
+        j = 0
+        for i in range(n):
+            if nums[i]:
+                nums[i],nums[j] = nums[j], nums[i]
+                j += 1
