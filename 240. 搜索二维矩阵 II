@@ -1,0 +1,38 @@
+class Solution:
+    def searchMatrix(self, matrix, target):
+        """
+        :type matrix: List[List[int]]
+        :type target: int
+        :rtype: bool
+        """
+
+        m = len(matrix)
+        if not m: return False
+        n = len(matrix[0])
+
+        # 从右上角往左下角一次次的划拉，如果有一次划拉出来的一道的最小值都比target大，那就结束，false
+        # 把矩阵左右各补一个三角形，方便划拉。比如左边要补的三角形，以0，0为一个顶点，只用补m-1行，m-1列。
+        # 总共要划拉多少道？（0，0）开头是一道，然后（0，1）开头，然后... (0,n),然后（1，n）... (m,n),
+        # 总共m+n-1道。
+        # 可以理解为每一道开始划（从右上角划到左下角）处于第多少列。
+
+
+        for i in range(m+n-1):
+            col = i
+            
+            # min_v 记录每一道的最小值，如果该值大于了target，说明找不到了。
+            min_v = 0
+            for row in range(m):
+                # 处于补的三角形的范围，忽略
+                if col < 0 or col > n-1:
+                    col -= 1
+                    continue
+
+                if matrix[row][col] == target:
+                    return True
+
+                col -= 1
+
+            if min_v > target: return False
+
+        return False
