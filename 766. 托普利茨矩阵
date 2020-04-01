@@ -1,0 +1,10 @@
+class Solution:
+    def isToeplitzMatrix(self, matrix: List[List[int]]) -> bool:
+    # 简单，每行与下一行比，错位的比。
+        m = len(matrix)
+        n = len(matrix[0])
+        for i in range(m - 1):
+            tmp = matrix[i][:-1]
+            if tmp != matrix[i + 1][1:]:
+                return False
+        return True
