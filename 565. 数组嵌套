@@ -1,0 +1,66 @@
+class Solution:
+    def arrayNesting(self, nums: List[int]) -> int:
+
+        # # 我写的，思路比较清晰，但是看起来很丑
+        # # 用i记录每个可能的S[i]的第一个索引，从0开始。
+        # i = 0
+        
+        # hash = set()
+        # # res记录最长的一个集合
+        # res = 0
+
+        # while True:
+            
+        #     hash.add(i)
+        #     next_idx = nums[i]
+        #     cnt = 1
+
+        #     while True:
+                
+        #         if next_idx in hash or next_idx > len(nums):
+        #             break
+        #         hash.add(next_idx)
+        #         cnt += 1
+        #         next_idx = nums[next_idx]
+        #     res = max(res, cnt)
+            
+        #     idx = 0
+
+        #     can_return = True
+        #     for j in range(len(nums)):
+        #         if j not in hash:
+        #             idx = j
+        #             can_return = False
+        #             break
+        #     if can_return:
+        #         return res 
+
+        #     i = idx
+
+        # return res
+
+
+        # 博客的方法一，和我上面的区别是这个新建了一个visited数组来标志是否被访问过。
+        # 而博客的方法二和博客方法一是一样的，精简写法。
+        # 博客方法三先不看，有点秀。
+        n = len(nums)
+        res = -float('inf')
+        visited = [False] * n
+
+        def helper(start):
+            nonlocal visited, nums
+            
+            i = start
+            cnt = 0
+            while cnt == 0 or i !=start:
+                visited[i] = True
+                i = nums[i]
+                cnt += 1
+            return cnt
+
+        for i in range(n):
+            if visited[nums[i]]:
+                continue
+            res = max(res, helper(i))
+
+        return res
