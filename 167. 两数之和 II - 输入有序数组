@@ -1,0 +1,34 @@
+class Solution:
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+        # 这道题其实是在考双指针，on复杂度。
+
+        #  方法一，因为是有序的，可以用二分替代暴力搜索。每次二分logn，总复杂度nlogn
+        # n = len(numbers)
+        # for i in range(n):
+        #     # other才是二分里要找的‘target’
+        #     other = target - numbers[i]
+        #     left = i + 1
+        #     right = n -1 
+        #     while left <= right:
+        #         mid = left + (right - left) // 2
+        #         if numbers[mid] == other:
+        #             # +1 只是因为要求返回的是第几个数，从1开始。
+        #             return [i+1, mid+1]
+        #         elif numbers[mid] > other:
+        #             right = mid - 1
+        #         else:
+        #             left = mid + 1
+        # return None
+
+        # 方法二：双指针，一个从头，一个从尾。如果两者相加等于target，返回；
+        # 如果相加小于target，左往右挪一位；若相加大于target，右边的数左移一位。
+        left = 0
+        right = len(numbers) - 1
+        while left < right:
+            if numbers[left] + numbers[right] == target:
+                return [left+1, right+1]
+            elif numbers[left] + numbers[right] > target:
+                right -= 1
+            else:
+                left += 1
+        return None
