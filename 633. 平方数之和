@@ -1,0 +1,14 @@
+class Solution:
+    def judgeSquareSum(self, c: int) -> bool:
+        # 和167题一个原理，双指针。
+        left = 0
+        import math
+        right = math.ceil(c**0.5)
+        while left <= right:
+            if left**2 + right**2 == c:
+                return True
+            elif left **2 + right**2 > c:
+                right -= 1
+            else:
+                left += 1
+        return False
