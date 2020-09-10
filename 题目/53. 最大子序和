@@ -2,10 +2,16 @@
 #思路：设状态S[i],表示以i为结尾的最大子序和。则S[i]=max(S[i-1]+num[i],num[i]),也就是说以i为结尾的最大子序和只
 #取决于以i-1结尾的最大子序和。边界：S[0】=num【0】
 class Solution:
-    def maxSubArray(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
+    def maxSubArray(self, nums: List[int]) -> int:
+        res = -float('inf')
+        curSum = 0
+        for i in nums:
+            # curSum存的是以当前节点i为最后一个值时的子序列（也就是0到i这个数组中
+            # 且以i为序列尾的子序列）的最大和。
+            curSum = max(curSum + i , i)
+            # res其实就是看过以每个数为尾的子序列和，找到最大的。
+            res = max(res, curSum)
+        return res        :rtype: int
         """
         if not nums:
             return 0

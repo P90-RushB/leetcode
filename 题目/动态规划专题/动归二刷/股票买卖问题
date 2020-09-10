@@ -1,0 +1,183 @@
+股票买卖问题是求最值问题，动态规划是极佳的解法，并且对于各种变形，都有统一的框架。
+labuladong有专题，这里汇总一下。
+
+#######################################################################
+第一题：
+121. 买卖股票的最佳时机
+
+这题只能买卖一次，不用dp也容易做，就是遍历一次，每次更新最小值，和到当前位置遇到的最大差。
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        # 对于买卖股票系列，求最值嘛，可以用dp的统一框架。
+
+        # 方法一，先不用dp，对于该题，找到最大的峰谷差即可。
+        # if not prices:
+        #     return 0
+        # max_diff = 0
+        # min_val = prices[0]
+        # for i in range(len(prices)):
+        #     min_val = min(min_val, prices[i])
+        #     max_diff = max(max_diff, prices[i] - min_val)
+
+        # return max_diff
+
+        # 方法二 动态规划
+        # 很像rl。描述一下状态转移。
+        # 首先每个状态，这样表示：dp[i][j] 表示第i天有没有股票(j=1为手持股票，=0表示无股票)
+        # 这个状态下的最大利润，这就是dp的定义。可以看出，状态是二维：天数，是否持有。
+
+        # 那么dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i])
+        # 意思是：第i天没持股票的最大利润，是前一天就没股票的最大利润 与 
+        # 前一天有股票然后今天卖了的最大利润 的大者
+        
+        ################### 注意， k=1 和 k=inf 
+        ################### 都不用考虑k，区别在于下面的情况的转移方程。
+        # 因为只能买一次，所以如果今天买了，今天的最大利润就是 - price[i]
+        # 在代码逻辑上， 并没有限制多次买，但因为每次买，当前的d[i][1]并不会
+        # 累计之前买了又卖的差价（因为是- price[i] 而不是 dp[i-1][0] - price[i]）
+        # 所以实现了只买一次的效果。
+        # dp[i][1] = max(dp[i-1][1], - price[i])
+        # 意思是：第i天手持股票的最大利润，是前一天就手持股票的最大利润 与
+        # 前一天没持股票今天买了股票的最大利润 的大者。
+
+        if not prices:
+            return 0
+        # 边界条件：dp[0][0] = 0 dp[0][1] = -prices[0]
+        dp = [[0, 0] for _ in range(len(prices))]
+        dp[0][0] = 0
+        dp[0][1] = -prices[0]
+
+        for i in range(1, len(prices)):
+            dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i])
+            dp[i][1] = max(dp[i-1][1], -prices[i])
+        return dp[len(prices)-1][0]
+
+
+##################################################################################
+第二题
+122. 买卖股票的最佳时机 II   能无限多次交易
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        # 和121题基本一样，除了状态转移方程略有区别。看121题解。
+
+        if not prices:
+            return 0
+        # 边界条件：dp[0][0] = 0 dp[0][1] = -prices[0]
+        dp = [[0, 0] for _ in range(len(prices))]
+        dp[0][0] = 0
+        dp[0][1] = -prices[0]
+
+        for i in range(1, len(prices)):
+            dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i])
+            # 和121题相比，只是从 - prices[i] 改成了 dp[i-1][0] - prices[i]
+            # 这个区别就是只能交易一次和 能无限次交易的区别。
+            dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i])
+        return dp[len(prices)-1][0]
+
+
+############################################################################
+# 第三题 123. 买卖股票的最佳时机 III
+# 最通用的一种形式
+
+本题设定可以交易两次， 可以推广成限制交易k次。
+我下面的这个写法乍一看可能有点奇怪，要求最多交易2次，我设置了k=3.
+这是因为我设置的dp的意义是：dp[i][j][k]表示第i天最多交易j次手里有无股票时（k=0表示无股票时，
+k=1代表有股票时）的最大利润，那么最多交易2次且k=0时 其实代表的是还未进行第2次交易，k= 1时表示第2次
+交易已经 进入买了股票的阶段， 而当k=3且k=0时，才代表完成了最多两次交易，且第三次交易开没开始买股票的状态，
+有点绕。
+
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        # 不同于121题的只能交易1次 和122题的 能无限次交易。
+        # 本题设定了交易的次数，以通用的形式，假定能够交易k次。
+        # 每次交易hou，k会递减，因此，也就是多加一个状态k而已。
+        # dp[i][k][j] 表示第i天，最多完成k笔交易，手里有无股票时（j=1代表有股票时，
+        # =0代表无股票时）能获得的最大利润。 
+        # n = len(prices)那最终目标就是求： dp[n-1][k][0]
+
+        # 边界条件：dp[0][t][0]= 0 for t in range(k)
+        # 意思是在第0天，不管买卖几次，最后，当天手里没股票时，利润为0
+
+        # dp[0][t][1] = -prices[0] for t in range(k)
+        # 意思是,在第0天，不管买卖几次，最后，当天手里有股票是，利润是-prices[0]
+
+        n = len(prices)
+        if n == 0:
+            return 0
+
+        k =3
+
+        dp = [[[0, 0] for _ in range(k+1)] for _ in range(n)]
+        for i in range(k+1):
+            dp[0][i][0] = 0
+        for i in range(k+1):
+            dp[0][i][1] = -prices[0]
+        for i in range(n):
+            dp[i][0][1] = -float('inf')
+
+        # 状态转移方程
+        # dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k-1][1] + prices[i])
+        # dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k][0] -prices[i])
+        for i in range(1, n):
+            for j in range(1, k+1):
+                dp[i][j][0] = max(dp[i-1][j][0], dp[i-1][j-1][1] + prices[i])
+                dp[i][j][1] = max(dp[i-1][j][1], dp[i-1][j][0] - prices[i])
+        return dp[n-1][k][0]
+
+
+##############################################################################
+714. 买卖股票的最佳时机含手续费  这题其实就是前面允许无限次交易那道题，
+多加的手续费这个条件，只要加到状态转移方程中就行了
+这里就不用dp数组了，直接迭代用o1的空间复杂度。
+
+class Solution:
+    def maxProfit(self, prices: List[int], fee: int) -> int:
+        # 没有交易次数限制时，dp的状态维度为2：天数，当前是否持有股票。
+        # dp[i][j] 表示第i天手里有无股票时能获得的最大利润（j=0表示手中无股票）
+        # dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i] - fee)
+        # dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i])
+        n = len(prices)
+        if n == 0:
+            return 0
+
+        pre = [0, -prices[0]]
+        now = [0, 0]
+        for i in range(1, n):
+            now[0] = max(pre[0], pre[1] + prices[i] - fee)
+            now[1] = max(pre[1], pre[0] - prices[i])
+            
+            pre[0] = now[0]
+            pre[1] = now[1]
+
+        return now[0] 
+
+
+################################################################
+309. 最佳买卖股票时机含冷冻期  也是允许无限次交易那道题，只不过多了个一天冷冻期的限制。
+
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        # 还是允许无限次交易的那道题，只不过这次，限制是有冷冻期。
+        # 体现在状态转移方程中就是隔了一天。
+
+        # dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i])
+        # dp[i][1] = max(dp[i-1][1], dp[i-2][0] - prices[i])
+
+        n = len(prices)
+        if n <= 1:
+            return 0
+        if n == 2:
+            return max(0, prices[1] - prices[0])
+
+        pre2 = [0, -prices[0]]
+        pre1 = [max(0, prices[1]-prices[0]), max(pre2[1], -prices[1])]
+        now = [0, 0]
+        for i in range(2, n):
+            now[0] = max(pre1[0], pre1[1] + prices[i])
+            now[1] = max(pre1[1], pre2[0] - prices[i])
+
+            pre2[0], pre2[1] = pre1[0], pre1[1]
+            pre1[0], pre1[1] = now[0], now[1]
+        return now[0]
+
+

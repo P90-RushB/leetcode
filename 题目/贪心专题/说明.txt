@@ -1,0 +1,4 @@
+贪心看了labuladong这部分，讲的很透彻。
+贪心可以看作动态规划的特例，需要额外满足 贪心选择 的性质，
+也就是，每一步都做出一个局部最优的选择，最终的结果就是全局最优。
+https://github.com/labuladong/fucking-algorithm/blob/master/动态规划系列/贪心算法之区间调度问题.md

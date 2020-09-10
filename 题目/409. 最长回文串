@@ -1,15 +1,23 @@
 class Solution:
-# 看清题意，是字符串能够组成的最大回文，可以将字符串打乱的，因此就很简单了，用集合，元素为2就+2，并移出set。最后如果集合里还有元素，说明
-# 回文是奇数个字符，+1就完事。
     def longestPalindrome(self, s: str) -> int:
+        dic = {}
+        for i in s:
+            dic[i] = dic.get(i, 0) + 1
+        cnt = 0
+        has_single = False
+        for k, v in dic.items():
+            cnt += v - v % 2
+            if v % 2 == 1:
+                has_single = True
+        return cnt + 1 if has_single else cnt
 
-        max_length = 0
-        letters = set()
-        for c in s:
-            if c in letters:
-                max_length += 2
-                letters.remove(c)
-            else:
-                letters.add(c)
-        
-        return max_length + bool(letters)
+# 方法二
+class Solution:
+    def longestPalindrome(self, s):
+        ans = 0
+        count = collections.Counter(s)
+        for v in count.values():
+            ans += v // 2 * 2
+            if ans % 2 == 0 and v % 2 == 1:
+                ans += 1
+        return ans

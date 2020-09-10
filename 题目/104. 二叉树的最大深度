@@ -1,8 +1,0 @@
-基础操作，递归求深度。
- public int MaxDepth(TreeNode root) {
-        if(root==null)
-            return 0;
-        int i=MaxDepth(root.left);
-        int j=MaxDepth(root.right);
-        return i>j?(i+1):(j+1);
-    }
