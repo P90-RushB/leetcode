@@ -1,44 +1,37 @@
-class Node:
-    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
-        self.val = val
-        self.left = left
-        self.right = right
-        self.next = next
-
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 
 class Solution:
-    def connect(self, root):
+    def lowestCommonAncestor(self, root, p, q):
+        # 从跟开始，如果pq在根节点两侧，那根就是最近公共。如果在一侧，递归；
+        # 如果遇到p或q，那p或q就是
         if not root:
-            return None
-        root.next = None
-        from collections import deque
-
-        q = deque()
-        q.append(root)
-        while q:
-            n = len(q)
-            for i in range(n):
-                node = q.pop()
-                if i != n-1:
-                    node.next = q[0]
-                else:
-                    node.next = None
-                
-                if node.left:
-                    q.append(node.left)
-                if node.right:
-                    q.append(node.right)
-
+            return
+        a = root.val - p.val
+        b = root.val - q.val
+        if a == 0:
+            return root.val
+        if b == 0:
+            return root.val
+        if a < 0 and b < 0:
+            return self.lowestCommonAncestor(root.right, p, q)
+        if a > 0 and b > 0:
+            return self.lowestCommonAncestor(root.left, p, q)
         return root
 
-
 s = Solution()
-node = Node(1)
-node.left = Node(2)
-node.right = Node(3)
-node.left.left = Node(4)
-node.left.right = Node(5)
-node.right.left = Node(6)
-node.right.right = Node(7)
-res = s.connect(node)
+node = TreeNode(6)
+node.left = TreeNode(2)
+node.right = TreeNode(8)
+node.left.left = TreeNode(0)
+node.left.right = TreeNode(4)
+node.right.left = TreeNode(7)
+node.right.right = TreeNode(9)
+node.left.right.left = TreeNode(3)
+node.left.right.right = TreeNode(5)
+res = s.lowestCommonAncestor(node, TreeNode(2), TreeNode(8))
 print(res)
