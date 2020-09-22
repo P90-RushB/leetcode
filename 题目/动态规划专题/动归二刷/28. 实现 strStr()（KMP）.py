@@ -55,3 +55,7 @@ class Solution:
             if (j == n):
                 return i - n + 1
         return -1
+
+s = Solution()
+res = s.strStr('hello', 'll')
+print(res)

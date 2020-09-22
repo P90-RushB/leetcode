@@ -32,3 +32,22 @@ class Solution:
                     dp[i][j+right] = max(dp[i+1][j+right], dp[i][j+right-1])
 
         return dp[0][n-1]
+
+# 二刷，不是斜着遍历的那种：
+        if not s:
+            return 0
+        n = len(s)
+        dp = [[0] * n for _ in range(n)]
+
+        # 只有一个字符，回文长度为1， 这是边界之一。
+        # 另一个边界是： i 小于 j， 不合法，最大长度为0。
+        for i in range(n):
+            dp[i][i] = 1
+
+        for i in reversed(range(n-1)):
+            for j in range( i+1, n):
+                if s[i] == s[j]:
+                    dp[i][j] = dp[i+1][j-1] + 2
+                else:
+                    dp[i][j] = max(dp[i][j-1], dp[i+1][j])
+        return dp[0][n-1]

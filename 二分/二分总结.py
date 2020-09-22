@@ -38,7 +38,7 @@ def binarysearch(nums, target):
     局限：如果连续多个数等于目标值，并不能找到左或者右边界或者指定的第几个相等的位置等等高级搜索。
 
 理解了 <=与<, ]还是），right = mid - 1 还是mid 这些逻辑之后，第一类应用当然也可以换用
-while left <= right的形式写。下面，看模板2. (一定要理解)
+while left < right的形式写。下面，看模板2. (一定要理解)
 模板2 ## 万分重要 ###
 def binarysearch(nums, target):
     if len(nums) == 0:
@@ -75,7 +75,7 @@ def binarysearch(nums, target):
     if len(nums) == 0:
         return -1
     left = 0
-    right = len(nums) - 1
+    right = len(nums)
     while left < right:
         mid = left + (right - left) // 2
         if nums[mid] == target:

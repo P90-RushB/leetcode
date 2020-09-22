@@ -1,37 +1,26 @@
-# Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
-
 class Solution:
-    def lowestCommonAncestor(self, root, p, q):
-        # 从跟开始，如果pq在根节点两侧，那根就是最近公共。如果在一侧，递归；
-        # 如果遇到p或q，那p或q就是
-        if not root:
-            return
-        a = root.val - p.val
-        b = root.val - q.val
-        if a == 0:
-            return root.val
-        if b == 0:
-            return root.val
-        if a < 0 and b < 0:
-            return self.lowestCommonAncestor(root.right, p, q)
-        if a > 0 and b > 0:
-            return self.lowestCommonAncestor(root.left, p, q)
-        return root
+    def minSubArrayLen(self, s, nums):
+
+        n = len(nums)
+        cnt = float('inf')
+        tmp_sum = 0
+        tmp_cnt = 0
+
+        for i in range(n):
+            for j in range(i, n):
+                tmp_sum += nums[j]
+                tmp_cnt += 1
+                if tmp_sum > s:
+                    cnt = min(cnt, tmp_cnt)
+                    break
+            tmp_sum = 0
+            tmp_cnt = 0
+        if cnt == float('inf'):
+            return 0
+        return cnt
 
 s = Solution()
-node = TreeNode(6)
-node.left = TreeNode(2)
-node.right = TreeNode(8)
-node.left.left = TreeNode(0)
-node.left.right = TreeNode(4)
-node.right.left = TreeNode(7)
-node.right.right = TreeNode(9)
-node.left.right.left = TreeNode(3)
-node.left.right.right = TreeNode(5)
-res = s.lowestCommonAncestor(node, TreeNode(2), TreeNode(8))
+res = s.minSubArrayLen(7, [2,3,1,2,4,3])
 print(res)
+
+                
