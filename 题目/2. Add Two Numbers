@@ -1,43 +1,26 @@
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     public int val;
- *     public ListNode next;
- *     public ListNode(int x) { val = x; }
- * }
- */
-public class Solution {
-    public ListNode AddTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode one=l1,two=l2;//one,two分别为遍历链表一和二的节点对象
-        ListNode res=new ListNode (0);//因为构造函数需要val值，就随便先赋一个，返回res.next就行
-        ListNode three=res;//three对要返回的目标对象进行操作
-        int sum=0;
-        while(one!=null&&two!=null)
-        {
-            three.next=new ListNode((one.val+two.val+sum)%10);//
-            sum=(one.val+two.val+sum)/10;
-            one=one.next;
-            two=two.next;
-            three=three.next;
-        }
-        while(one!=null)
-        {
-            three.next=new ListNode((one.val+sum)%10);
-            sum=(one.val+sum)/10;
-            one=one.next;
-            three=three.next;
-        }
-         while(two!=null)
-        {
-            three.next=new ListNode((two.val+sum)%10);
-            sum=(two.val+sum)/10;
-            two=two.next;
-            three=three.next;
-        }
-        if(sum!=0)
-            three.next=new ListNode(1);
-        return res.next;//这里返回res。next，res就没有引用了，因为是c#，不会内存泄漏，自动回收。
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        first = l1
+        second = l2
+        res = run = ListNode(-1)
+        more = 0
+
+        while first or second or more:
+            tmp = more
+            if first:
+                tmp += first.val
+                first = first.next
+            if second:
+                tmp += second.val
+                second = second.next
+
+            run.next = ListNode(tmp % 10)
+            run = run.next
+            more = tmp // 10
         
-            
-    }
-}
+        return res.next

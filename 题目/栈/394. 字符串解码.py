@@ -39,3 +39,26 @@ class Solution:
             idx += 1
         return res
                 
+
+# 二刷，我写的栈方法，比上面的递归要简单些。
+class Solution:
+    def decodeString(self, s: str) -> str:
+        # 用栈，当遇到右括号，开始弹栈，遇到左括号时，中间的就是要重复的；然后继续弹出，
+        # 左括号到字母之间的数字，表示重复的次数。
+        stack = []
+        for i in s:
+            if i != ']':
+                stack.append(i)
+            else:
+                tmp = ''
+                while stack[-1] != '[':
+                    tmp = stack.pop() + tmp
+                # 弹出左括号
+                stack.pop()
+                tmp1 = 0
+                pow_nums = 0
+                while stack and stack[-1].isdigit():
+                    tmp1 += int(stack.pop()) * 10 ** pow_nums
+                    pow_nums += 1
+                stack.append(tmp * tmp1)
+        return ''.join(stack)

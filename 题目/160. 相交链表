@@ -1,66 +1,53 @@
-编写一个程序，找到两个单链表相交的起始节点。
+class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+        # 哈希表，存一个链表，然后开始遍历第二个链表。
+        # col = set()
+        # tmp = headA
+        # while tmp:
+        #     col.add(tmp)
+        #     tmp = tmp.next
 
- 
+        # tmp = headB
+        # while tmp:
+        #     if tmp in col:
+        #         return tmp
+        #     tmp = tmp.next
+        # return None
 
-例如，下面的两个链表：
+        # 方法二，双指针。 两个指针a，b从两个链表头开始，对于a，b一样的：
+        # 一个链表遍历到结束时，转到另一条的开头；如果某个时刻a，b一样，代表相交的起始点，
+        # 如果遍历完了两个链表那没有相交（a，b当然是同时到结束的，因为链表总长是l1+l2）
 
-A:          a1 → a2
-                   ↘
-                     c1 → c2 → c3
-                   ↗            
-B:     b1 → b2 → b3
-
-
-此题较简单，分别遍历两条链表，然后记录长度。然后将较长的链表中向右移两者长度差，然后遍历比较直到两者相等。
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     public int val;
- *     public ListNode next;
- *     public ListNode(int x) { val = x; }
- * }
- */
-public class Solution {
-    public ListNode GetIntersectionNode(ListNode headA, ListNode headB) {
-      int i=0,j=0;
-        ListNode a=headA,b=headB;
-        while(a!=null)
-        {
-            i++;
-            a=a.next;
-        }
-        while(b!=null)
-        {
-            j++;
-            b=b.next;
-        }
-        a=headA;
-        b=headB;
-        if(i>j)
-        {
-            int h=i-j;
-            while(h>0)
-            {
-                h--;
-                a=a.next;
-            }
-        }
-        else if(i<j)
-        {
-            int h=j-i;
-            while(h>0)
-            {
-                h--;
-                b=b.next;
-            }
-        }
-            while(a!=b)
-            {
-                a=a.next;
-                b=b.next;
-            }
+        # a = headA
+        # b = headB
         
-        return a;
-        
-    }
-}
+        # a_has_change = b_has_change = False
+
+        # if not a or not b:
+        #     return None
+
+        # while True:
+        #     if a == b:
+        #         return a
+        #     a = a.next
+        #     b = b.next
+
+        #     if not a:
+        #         if not a_has_change:
+        #             a = headB
+        #             a_has_change = True
+        #         else:
+        #             return None
+        #     if not b:
+        #         if not b_has_change:
+        #             b_has_change = True
+        #             b = headA
+        #         else:
+        #             return None
+
+    # 双指针的简洁写法
+        curA, curB = headA, headB
+        while curA != curB:
+            curA = curA.next if curA else headB
+            curB = curB.next if curB else headA
+        return curA

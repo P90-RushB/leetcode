@@ -1,11 +1,31 @@
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     public int val;
- *     public ListNode next;
- *     public ListNode(int x) { val = x; }
- * }
- */
+python版：
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+
+        p = head
+        for _ in range(1, n):
+            p = p.next
+        
+        if not p.next:
+            head = head.next
+            return head
+
+        w = q = head
+        while p.next:
+            p = p.next
+            w = q
+            q = q.next
+        
+        w.next = q.next
+        return head
+
+
 public class Solution {
     public ListNode RemoveNthFromEnd(ListNode head, int n) {
         int i=1;

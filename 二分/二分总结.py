@@ -45,7 +45,7 @@ def binarysearch(nums, target):
         return -1
     left = 0 
     right = len(nums)
-    while left < right:
+    while left < right: 
         mid = left + (right - left) // 2
         if nums[mid] == target:
             return mid

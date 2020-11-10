@@ -1,6 +1,23 @@
 class Solution:
 
     def maxDepth(self, root: TreeNode) -> int:
+
+        # 方法零 我一直没想出来迭代咋写，主要是没想到咋同时记录深度…… 官方题解：
+        # 栈里存元祖不就好了。
+        # 迭代
+        if not root:
+            return 0
+        stack = [(1, root)]
+        max_len = 1
+        
+        while stack:
+            deep, node = stack.pop()
+            if node:
+                max_len = max(max_len, deep)
+                stack.append((deep+1, node.left))
+                stack.append((deep+1, node.right))
+        return max_len
+
         # 方法一，自顶向下
         # ans = 0
         # def help(node, depth):

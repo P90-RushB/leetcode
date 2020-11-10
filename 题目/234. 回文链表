@@ -5,54 +5,67 @@
 
 这题如果不限制o1的空间的话，是很好做的，遍历一遍赋值给list，比较是不是回文就行。但是限定了o1的空间后，就不能
 这样做了。 需要先用快慢指针找到中点，然后将后半部分链表反转（时间O（n）），然后比较。
-对于快慢指针的理解，因为while内是fast.next!=null&&fast.next.next!=null，这样经过试数可以知道，如果链表是偶数个节点，
-比如4个，那么最后slow是在第二个节点处；而如果链表是奇数个节点比如5个，那么最后slow是指向第三个节点处，知道这个的意义在于，
-不管奇数还是偶数个，后半部分的节点数都不会大于前半部分，所以前后部分对比时，while（后半部分的节点！=null），才是正确搞笑的。
-所以反转链表是基本必须要掌握的操作。
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     public int val;
- *     public ListNode next;
- *     public ListNode(int x) { val = x; }
- * }
- */
-public class Solution {
-    public bool IsPalindrome(ListNode head) {
-        if(head==null||head.next==null)
-            return true;
-        ListNode slow=head,fast=head;
-        while(fast.next!=null&&fast.next.next!=null)
-        {
-            fast=fast.next.next;
-            slow=slow.next;
-        }
-        fast=head;
-        slow=slow.next;
-        slow=reverse(slow);
-        while(slow!=null)
-        {
-            if(fast.val!=slow.val)
-                return false;
-            slow=slow.next;
-            fast=fast.next;
-        }
-        return true;
-    }
-    ListNode reverse(ListNode head)
-    {
-        if(head==null||head.next==null)
-            return head;
-        ListNode dummy=new ListNode(0);
-        dummy.next=head;
-        ListNode cur=head;
-        while(cur.next!=null)
-        {
-            ListNode tmp=cur.next;
-            cur.next=tmp.next;
-            tmp.next=dummy.next;
-            dummy.next=tmp;
-        }
-        return dummy.next;
-    }
-}
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def isPalindrome(self, head: ListNode) -> bool:
+
+        # 垃圾方法：
+        # 方法1，如果可以用o（n）复杂度，只要遍历一次存list，比较即可。
+        # res = []
+        # tmp = head
+        # while tmp:
+        #     res.append(tmp.val)
+        #     tmp = tmp.next
+
+        # n = len(res)
+        # for i in range(n//2):
+        #     if res[i] != res[n-1-i]:
+        #         return False
+
+        # return True
+
+        # 真正的方法：
+        # 方法二，如何用o（n）时间复杂度，o（1）空间复杂度来解决？
+        # 先快慢指针锁定中点，然后对后半部分指针翻转链表，然后前半部分和后半部分比较即可。
+        fast = slow = head
+        
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        
+        # 遍历完，如何判断是奇数个节点还是偶数个节点举俩例子看看就知道了。
+        # 如果是 1 2 3 4 5， 循环两次跳出， slow为3，正中心， fast存在但fast.next为None
+        # 如果是1 2 3 4， 循环两次跳出，slow为2， 中心靠左， fast为None。
+        # 因此，偶数还是奇数， 看fast就行。
+        
+        # 如果是偶数个节点，slow已经是中心靠右的那个节点；
+        # 如果是奇数个节点，slow目前是中心，要右移一位
+        if fast:
+            slow = slow.next
+        
+        # 开始反转右半部分链表。
+        pre = None
+        second = slow
+        while second:
+            tmp = second.next
+
+            second.next = pre
+
+            pre = second
+            second = tmp
+        # 迭代反转完成后，pre就是右半部分新的head
+        
+        first = head
+        while first and pre:
+            if first.val != pre.val:
+                return False
+            first = first.next
+            pre = pre.next
+
+        return True
